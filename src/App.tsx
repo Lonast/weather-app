@@ -3,41 +3,53 @@ import "./App.css";
 import { Header } from "./components/Header";
 import MainPage from "./components/MainPage";
 import { ThemeContextProvider } from "./context/ThemeContext";
-import { getWeater, getWeatherThunk } from "./features/weatherSlice";
+import { getWeatherThunk } from "./features/weatherSlice";
 import { useAppDispatch, useAppSelector } from "./hooks/hookType";
+import ReactLoading from "react-loading";
+import { getGeoThunk } from "./features/geolocationSlice";
 
 function App() {
-  const [theme, setTheme] = useState<boolean>(false);
   const selector = useAppSelector((state) => state.weather.weather);
+  const loading = useAppSelector((state) => state.weather.loading);
+  const [theme, setTheme] = useState<boolean>(false);
+
   const [coords, setCoords] = useState({ x: "", y: "" });
   const dispatch = useAppDispatch();
   const themeHandler = () => {
     setTheme((prevTheme) => !prevTheme);
   };
-  function success(pos: any) {
-    if (coords.x === "") {
-      setCoords({ x: pos.coords.latitude, y: pos.coords.longitude });
-    }
-  }
 
-  navigator.geolocation.getCurrentPosition(success);
   useEffect(() => {
-    dispatch(getWeatherThunk(coords));
-  }, [coords]);
-  try {
-    console.log(selector.latitude);
-  } catch {}
+    dispatch(getWeatherThunk());
+    dispatch(getGeoThunk());
+  }, []);
+
   return (
     <ThemeContextProvider theme={theme} themeHandler={themeHandler}>
-      <div className="h-screen flex flex-col">
+      <div className="w-screen select-none h-screen flex flex-col">
         <Header />
-        {selector && (
-          <MainPage
-            temperature={selector.current_weather.temperature}
-            windspeed={selector.current_weather.windspeed}
-            weatherCode={selector.current_weather.weathercode}
-            isDay={selector.current_weather.is_day}
-          />
+        {loading ? (
+          <div
+            className={`h-full w-full flex items-center justify-center ${
+              theme ? "bg-slate-600" : "white"
+            }`}
+          >
+            <ReactLoading
+              type={"spin"}
+              color={`${theme ? "rgb(30 41 59)" : "rgb(148 163 184)"}`}
+              height={375}
+              width={375}
+            />
+          </div>
+        ) : (
+          selector && (
+            <MainPage
+              temperature={selector.current_weather.temperature}
+              windspeed={selector.current_weather.windspeed}
+              weatherCode={selector.current_weather.weathercode}
+              isDay={selector.current_weather.is_day}
+            />
+          )
         )}
       </div>
     </ThemeContextProvider>
