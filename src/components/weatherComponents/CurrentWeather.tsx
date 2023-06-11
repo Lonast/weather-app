@@ -55,7 +55,7 @@ const CurrentWeather: React.FC = () => {
     }
   };
   return (
-    <div className="z-0 mt-36 relative sm:min-h-[490px] max-h-[490px] grid h-full w-full">
+    <div className="z-0 mt-36 relative sm:min-h-[490px] max-h-[490px] grid h-full w-full sm:mt-0">
       {weather()}
     </div>
   );
