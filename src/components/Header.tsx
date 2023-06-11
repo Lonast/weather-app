@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
 
   return (
     <nav
-      className={`w-screen z-10 absolute h-52 transition-all grid sm:h-16 sm:grid-cols-[2fr, 1fr, 2fr]  ${
+      className={`w-full z-10 absolute h-52 transition-all grid sm:h-16 sm:grid-cols-[2fr, 1fr, 2fr]  ${
         theme ? "bg-slate-800" : "bg-slate-400"
       }`}
     >
