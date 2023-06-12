@@ -69,3 +69,9 @@ export type GeolocationType = {
   geolocation: GeolocationState;
   loading: string;
 };
+
+export interface WeatherCardProps {
+  temperature: number;
+  windSpeed: number;
+  time: string;
+}

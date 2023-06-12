@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import temp from "../assets/temp.svg";
 import wind from "../assets/wind.svg";
 import { AreaChart } from "./AreaChart";
 import { useAppSelector } from "../hooks/hookType";
 import CurrentWeather from "./weatherComponents/CurrentWeather";
+import WeatherCard from "./weatherComponents/WeatherCard";
+import * as uuid from "uuid";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 interface MainPageProsp {
   temperature: number;
@@ -20,17 +23,39 @@ const MainPage: React.FC<MainPageProsp> = () => {
   const selector = useAppSelector((state) => state.weather.weather);
   const time = selector.current_weather.time;
   const { theme } = useContext(ThemeContext);
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
+  useEffect(() => {
+    const event = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", event);
+    return function () {
+      window.removeEventListener("resize", event);
+    };
+  }, []);
+
+  const slideLeft = () => {
+    let slider = document.getElementById("slider");
+    slider!.scrollLeft = slider!.scrollLeft - 500;
+  };
+
+  const slideRight = () => {
+    let slider = document.getElementById("slider");
+    slider!.scrollLeft = slider!.scrollLeft + 500;
+  };
+  console.log(selector.hourly);
 
   return (
     <main
-      className={`transition-colors h-screen grid grid-rows-[2fr,1fr] ${
+      className={`relative transition-colors h-[1200px] grid grid-rows-[2fr,1fr,1fr]  w-full lg:h-full ${
         theme ? "bg-slate-600" : "bg-white"
       }`}
     >
       <CurrentWeather />
-      <section className="select-none min-h-[100px] flex flex-col gap-10 justify-center md:flex-row">
+      <section className="select-none min-h-[100px] flex flex-col gap-10 justify-center lg:flex-row">
         <div
-          className={`mx-12 flex justify-center hover:scale-110 transition-all md:mx-0 max-h-20 ${
+          className={`mx-12 flex justify-center hover:scale-110 transition-all lg:mx-0 max-h-20 ${
             theme ? "bg-slate-800" : "bg-slate-400"
           } bg-slate-400 rounded-xl p-2 flex flex-row`}
         >
@@ -41,7 +66,7 @@ const MainPage: React.FC<MainPageProsp> = () => {
           </h2>
         </div>
         <div
-          className={`mx-12 flex justify-center hover:scale-110 transition-all  max-h-20 md:mx-0 ${
+          className={`mx-12 flex justify-center hover:scale-110 transition-all  max-h-20 lg:mx-0 ${
             theme ? "bg-slate-800" : "bg-slate-400"
           } bg-slate-400 rounded-xl p-2 flex flex-row`}
         >
@@ -52,11 +77,49 @@ const MainPage: React.FC<MainPageProsp> = () => {
           </h2>
         </div>
       </section>
-      <AreaChart
-        labels={selector.hourly.time}
-        data={selector.hourly.temperature_2m}
-        time={time}
-      />
+      {width > 1024 ? (
+        <AreaChart
+          labels={selector.hourly.time}
+          data={selector.hourly.temperature_2m}
+          time={time}
+        />
+      ) : (
+        <div className="w-full flex flex-col items-center overflow-hidden h-[480px]">
+          <div
+            className={`${
+              width >= 755 ? "w-[98vw]" : "w-[96vw]"
+            }   flex items-center pb-8 md:pt-20 h-[480px]`}
+          >
+            <MdChevronLeft
+              className="opacity-50 cursor-pointer hover:opacity-100"
+              onClick={slideLeft}
+              size={40}
+            />
+            <div
+              id="slider"
+              className="w-full flex flex-row overflow-x-auto scroll scroll-smooth whitespace-nowrap scrollbar-hide h-[450px]"
+            >
+              {selector.hourly.temperature_2m
+                .slice(0, 48)
+                .map((item, index) => {
+                  return (
+                    <WeatherCard
+                      key={uuid.v4()}
+                      temperature={item}
+                      windSpeed={selector.hourly.windspeed_10m[index]}
+                      time={selector.hourly.time[index]}
+                    />
+                  );
+                })}
+            </div>
+            <MdChevronRight
+              className="opacity-50 cursor-pointer hover:opacity-100"
+              onClick={slideRight}
+              size={40}
+            />
+          </div>
+        </div>
+      )}
     </main>
   );
 };

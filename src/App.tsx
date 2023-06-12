@@ -11,12 +11,15 @@ import { getGeoThunk } from "./features/geolocationSlice";
 function App() {
   const selector = useAppSelector((state) => state.weather.weather);
   const loading = useAppSelector((state) => state.weather.loading);
-  const [theme, setTheme] = useState<boolean>(false);
+  const [theme, setTheme] = useState<boolean>(
+    localStorage.getItem("theme") === "false" ? true : false
+  );
 
   const [coords, setCoords] = useState({ x: "", y: "" });
   const dispatch = useAppDispatch();
   const themeHandler = () => {
     setTheme((prevTheme) => !prevTheme);
+    localStorage.setItem("theme", theme.toString());
   };
 
   useEffect(() => {
@@ -26,7 +29,7 @@ function App() {
 
   return (
     <ThemeContextProvider theme={theme} themeHandler={themeHandler}>
-      <div className="w-screen select-none h-screen flex flex-col">
+      <div className="select-none h-screen flex flex-col">
         <Header />
         {loading ? (
           <div
