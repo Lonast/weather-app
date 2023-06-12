@@ -91,9 +91,10 @@ const MainPage: React.FC<MainPageProsp> = () => {
             }   flex items-center pb-8 md:pt-20 h-[480px]`}
           >
             <MdChevronLeft
-              className="opacity-50 cursor-pointer hover:opacity-100"
+              className="opacity-70 cursor-pointer hover:opacity-100"
               onClick={slideLeft}
               size={40}
+              color={theme ? "white" : "black"}
             />
             <div
               id="slider"
@@ -113,9 +114,10 @@ const MainPage: React.FC<MainPageProsp> = () => {
                 })}
             </div>
             <MdChevronRight
-              className="opacity-50 cursor-pointer hover:opacity-100"
+              className="opacity-70 cursor-pointer hover:opacity-100"
               onClick={slideRight}
               size={40}
+              color={theme ? "white" : "black"}
             />
           </div>
         </div>

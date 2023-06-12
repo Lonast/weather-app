@@ -14,8 +14,6 @@ function App() {
   const [theme, setTheme] = useState<boolean>(
     localStorage.getItem("theme") === "false" ? true : false
   );
-
-  const [coords, setCoords] = useState({ x: "", y: "" });
   const dispatch = useAppDispatch();
   const themeHandler = () => {
     setTheme((prevTheme) => !prevTheme);

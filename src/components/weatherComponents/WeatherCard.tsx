@@ -25,7 +25,7 @@ const WeatherCard = ({ temperature, windSpeed, time }: WeatherCardProps) => {
       <span className="flex flex-col items-center">
         <img src={clock} width={50} alt="" />
         <p>{time.slice(5, 10)}</p>
-        <p>{time.slice(12)}</p>
+        <p>{time.slice(11)}</p>
       </span>
     </div>
   );
