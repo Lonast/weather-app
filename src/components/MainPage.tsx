@@ -40,11 +40,15 @@ const MainPage: React.FC<MainPageProsp> = () => {
     slider!.scrollLeft = slider!.scrollLeft - 500;
   };
 
+  //   <main
+  //   className={`relative transition-colors h-[1200px] grid min-h-screen grid-rows-[2fr,150px,450px] md:grid-rows-[1fr,1fr,1fr] max-h-none w-full lg:h-full md:max-h-6 ${
+  //     theme ? "bg-slate-600" : "bg-white"
+  //   }`}
+  // >
   const slideRight = () => {
     let slider = document.getElementById("slider");
     slider!.scrollLeft = slider!.scrollLeft + 500;
   };
-  console.log(selector.hourly);
 
   return (
     <main
@@ -78,11 +82,13 @@ const MainPage: React.FC<MainPageProsp> = () => {
         </div>
       </section>
       {width > 1024 ? (
-        <AreaChart
-          labels={selector.hourly.time}
-          data={selector.hourly.temperature_2m}
-          time={time}
-        />
+        <div className="w-screen h-full relative bg-slate-600 flex justify-center">
+          <AreaChart
+            labels={selector.hourly.time}
+            data={selector.hourly.temperature_2m}
+            time={time}
+          />
+        </div>
       ) : (
         <div
           className={`w-full flex flex-col items-center overflow-hidden h-[480px] z-0 ${
