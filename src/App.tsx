@@ -27,11 +27,11 @@ function App() {
 
   return (
     <ThemeContextProvider theme={theme} themeHandler={themeHandler}>
-      <div className="select-none h-screen flex flex-col">
+      <div className="select-none  min-h-screen flex flex-col">
         <Header />
         {loading ? (
           <div
-            className={`h-full w-full flex items-center justify-center ${
+            className={` min-h-screen w-full flex items-center justify-center ${
               theme ? "bg-slate-600" : "white"
             }`}
           >

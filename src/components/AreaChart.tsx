@@ -94,8 +94,9 @@ export const AreaChart: React.FC<AreaChartProps> = (props) => {
   return (
     <Line
       options={options}
+      className={"self-end"}
       data={data}
-      height={`${window.innerWidth < 1000 ? "90px" : "50px"}`}
+      height={`45px`}
     />
   );
 };

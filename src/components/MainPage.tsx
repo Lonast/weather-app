@@ -48,12 +48,12 @@ const MainPage: React.FC<MainPageProsp> = () => {
 
   return (
     <main
-      className={`relative transition-colors h-[1200px] grid grid-rows-[2fr,1fr,1fr]  w-full lg:h-full ${
+      className={`relative transition-colors h-[1200px] grid min-h-screen grid-rows-[2fr,150px,450px] md:grid-rows-[1fr,1fr,1fr] max-h-none w-full lg:h-full md:max-h-6 ${
         theme ? "bg-slate-600" : "bg-white"
       }`}
     >
       <CurrentWeather />
-      <section className="select-none min-h-[100px] flex flex-col gap-10 justify-center lg:flex-row">
+      <section className="z-10 select-none min-h-[100px] flex flex-col h-10 gap-10 justify-center lg:flex-row">
         <div
           className={`mx-12 flex justify-center hover:scale-110 transition-all lg:mx-0 max-h-20 ${
             theme ? "bg-slate-800" : "bg-slate-400"
@@ -84,7 +84,11 @@ const MainPage: React.FC<MainPageProsp> = () => {
           time={time}
         />
       ) : (
-        <div className="w-full flex flex-col items-center overflow-hidden h-[480px]">
+        <div
+          className={`w-full flex flex-col items-center overflow-hidden h-[480px] z-0 ${
+            theme ? "bg-slate-600" : "bg-white"
+          }`}
+        >
           <div
             className={`${
               width >= 755 ? "w-[98vw]" : "w-[96vw]"
@@ -98,7 +102,7 @@ const MainPage: React.FC<MainPageProsp> = () => {
             />
             <div
               id="slider"
-              className="w-full flex flex-row overflow-x-auto scroll scroll-smooth whitespace-nowrap scrollbar-hide h-[450px]"
+              className="w-full flex flex-row overflow-x-auto scroll scroll-smooth whitespace-nowrap scrollbar-hide"
             >
               {selector.hourly.temperature_2m
                 .slice(0, 48)

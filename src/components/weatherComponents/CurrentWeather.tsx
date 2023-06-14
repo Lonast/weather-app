@@ -13,8 +13,9 @@ import Fog from "./Fog";
 const CurrentWeather: React.FC = () => {
   const selector = useAppSelector((state) => state.weather.weather);
   const weatherCode = selector.current_weather.weathercode;
+  const a = 55;
   const weather = () => {
-    switch (selector.current_weather.weathercode) {
+    switch (a) {
       case 0:
         return <ClearSky />;
       case 1:
